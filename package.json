@@ -1,0 +1,25 @@
+{
+  "name": "draco_logs_bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "ts-node src/index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.10.5",
+    "@types/node-telegram-bot-api": "^0.64.1",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "axios": "^1.6.2",
+    "dotenv": "^16.3.1",
+    "image-to-pdf": "^2.0.0",
+    "node-telegram-bot-api": "^0.64.0",
+    "ts-node": "^10.9.2"
+  }
+}
