@@ -12,7 +12,6 @@ export function deleteGeneratedFiles() {
     }
 
     files.forEach((file) => {
-      console.log(file);
       if (path.extname(file) === extension) {
         fs.unlink(path.join(targetDirectory, file), (err) => {
           if (err) {
