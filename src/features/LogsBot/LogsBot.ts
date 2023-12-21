@@ -10,7 +10,7 @@ class LogsBot {
   private bot;
   private token;
   private imageUrls: string[] = [];
-  private imagesReceived = 0;
+  private imagesReceived = {};
 
   public constructor() {
     this.token = process.env.TELEGRAM_BOT_TOKEN;
@@ -24,14 +24,18 @@ class LogsBot {
   public receiveImage() {
     this.bot.on("photo", async (msg) => {
       try {
-        this.imagesReceived++;
+        if (msg.chat.id in this.imagesReceived) {
+          this.imagesReceived[msg.chat.id]++;
+        } else {
+          this.imagesReceived[msg.chat.id] = 1;
+        }
         if (msg.photo && msg.photo[0]) {
           await this.getImageUrlsAsync(msg);
           console.log(this.imagesReceived);
-          const id = await this.generatePDFAsync();
+          const id = await this.generatePDFAsync(msg.chat.id);
           if (id == null) return;
           await this.sendPDFAsync(msg, id);
-          this.clean();
+          this.clean(msg.chat.id);
         }
       } catch (error) {
         console.log(error);
@@ -54,10 +58,10 @@ class LogsBot {
     this.imageUrls.push(imageUrl);
   }
 
-  private async generatePDFAsync(): Promise<string> {
+  private async generatePDFAsync(chatId: any): Promise<string> {
     return new Promise((resolve, reject) => {
       try {
-        if (this.imageUrls.length != this.imagesReceived) return null;
+        if (this.imageUrls.length != this.imagesReceived[chatId]) return null;
         const pdfId = `${uuidv4()}.pdf`;
         imgToPDF(this.imageUrls, imgToPDF.sizes.A4).pipe(
           fs.createWriteStream(pdfId)
@@ -109,9 +113,9 @@ class LogsBot {
     });
   }
 
-  private clean() {
+  private clean(chatId: string) {
     this.imageUrls = [];
-    this.imagesReceived = 0;
+    this.imagesReceived[chatId] = 0;
     deleteGeneratedFiles();
   }
 }
