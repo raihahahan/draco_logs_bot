@@ -40,9 +40,8 @@ class LogsBot {
         } else {
           this.imagesReceived[msg.chat.id] = 1;
         }
-        if (msg.photo && msg.photo[0]) {
+        if (msg.photo && msg.photo[msg.photo.length - 1]) {
           await this.getImageUrlsAsync(msg);
-          console.log(this.imagesReceived);
           const id = await this.generatePDFAsync(msg.chat.id);
           if (id == null) return;
           await this.sendPDFAsync(msg, id);
