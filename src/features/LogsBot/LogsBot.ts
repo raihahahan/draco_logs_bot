@@ -35,6 +35,7 @@ class LogsBot {
   public receiveImage() {
     this.bot.on("photo", async (msg) => {
       try {
+        this.bot.sendMessage(msg.chat.id, "Generating PDF...");
         if (msg.chat.id in this.imagesReceived) {
           this.imagesReceived[msg.chat.id]++;
         } else {
