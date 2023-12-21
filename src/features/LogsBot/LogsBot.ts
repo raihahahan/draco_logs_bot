@@ -3,6 +3,7 @@ import "dotenv/config";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import { deleteGeneratedFiles } from "./LogsBot.utils";
+import { INSTRUCTIONS } from "./LogsBot.resources";
 const fs = require("fs");
 const imgToPDF = require("image-to-pdf");
 
@@ -19,6 +20,16 @@ class LogsBot {
       throw new Error("Token is invalid.");
     }
     this.bot = new TelegramBot(this.token, { polling: true });
+  }
+
+  public sendInstructions() {
+    this.bot.onText(/\/start/, (msg) => {
+      try {
+        this.bot.sendMessage(msg.chat.id, INSTRUCTIONS.start);
+      } catch (error) {
+        console.log(error);
+      }
+    });
   }
 
   public receiveImage() {
