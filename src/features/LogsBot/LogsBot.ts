@@ -10,7 +10,7 @@ const imgToPDF = require("image-to-pdf");
 class LogsBot {
   private bot;
   private token;
-  private imageUrls: string[] = [];
+  private imageUrls = {};
   private imagesReceived = {};
 
   public constructor() {
@@ -66,16 +66,21 @@ class LogsBot {
     });
     let returnedB64 = Buffer.from(imageData.data).toString("base64");
     const imageUrl = `data:image/jpeg;base64,${returnedB64}`;
-    this.imageUrls.push(imageUrl);
+    if (msg.chat.id in this.imageUrls) {
+      this.imageUrls[msg.chat.id].push(imageUrl);
+    } else {
+      this.imageUrls[msg.chat.id] = [imageUrl];
+    }
   }
 
   private async generatePDFAsync(chatId: any): Promise<string> {
     return new Promise((resolve, reject) => {
       try {
-        if (this.imageUrls.length != this.imagesReceived[chatId]) return null;
+        if (this.imageUrls[chatId].length != this.imagesReceived[chatId])
+          return null;
         this.bot.sendMessage(chatId, "Generating PDF...");
         const pdfId = `${uuidv4()}.pdf`;
-        imgToPDF(this.imageUrls, imgToPDF.sizes.A4).pipe(
+        imgToPDF(this.imageUrls[chatId], imgToPDF.sizes.A4).pipe(
           fs.createWriteStream(pdfId)
         );
         console.log("PDF generated.");
