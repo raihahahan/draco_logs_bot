@@ -35,7 +35,6 @@ class LogsBot {
   public receiveImage() {
     this.bot.on("photo", async (msg) => {
       try {
-        this.bot.sendMessage(msg.chat.id, "Generating PDF...");
         if (msg.chat.id in this.imagesReceived) {
           this.imagesReceived[msg.chat.id]++;
         } else {
@@ -74,6 +73,7 @@ class LogsBot {
     return new Promise((resolve, reject) => {
       try {
         if (this.imageUrls.length != this.imagesReceived[chatId]) return null;
+        this.bot.sendMessage(chatId, "Generating PDF...");
         const pdfId = `${uuidv4()}.pdf`;
         imgToPDF(this.imageUrls, imgToPDF.sizes.A4).pipe(
           fs.createWriteStream(pdfId)
