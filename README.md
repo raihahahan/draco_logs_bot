@@ -10,7 +10,7 @@
 - Nodejs
 
 ### Setting up locally
-1. Clone this repo: `https://github.com/raihahahan/draco_logs_bot.git`
+1. Clone this repo: `git clone https://github.com/raihahahan/draco_logs_bot.git`
 2. From the root directory: `npm install`
 3. Create a new bot using Telegram's BotFather
 4. Create a new `.env` file and copy the required key from `.env.example`. Paste the generated token into the `.env` file
