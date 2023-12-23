@@ -20,9 +20,6 @@
 1. Go to the bot and call /start
 2. Select one or more images from your gallery
 
-### Production
-- The current production bot is at https://t.me/draco_logs_bot
-
 ### Roadmap
 - [ ] Dockerise the bot
 - [ ] Issue: Sending in a large number of images will cause the bot to generate multiple pdfs separately as it does not wait for all images to load. Should consider to have a way to control the start and end of images using commands
