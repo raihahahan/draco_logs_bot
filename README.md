@@ -1,5 +1,5 @@
 # Draco logs bot
-## Telegram bot for RC4 Draco House Logs comm
+## Telegram bot for NUS RC4 Draco House Logs comm
 
 ### What is it
 - Logistics are needed for house events
